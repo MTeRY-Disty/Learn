@@ -9,18 +9,18 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 //import 'package:c2/Controller/NavBarController.dart';
 import 'package:c2/Controller/HttpController.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'Controller/NavBarController.dart';
 import 'Pages/HttpPost.dart';
 import 'Pages/HttpUser.dart';
 import 'Pages/Liked.dart';
 import 'Pages/MainNavigationWrapper.dart';
-import 'core/Routes.dart';
 
 
 
-void main()  {
-
+Future<void> main()  async {
+  await GetStorage.init(); // <-- need
   runApp(GetMaterialApp(
   initialBinding: AllControllersBinding(),
     locale: Locale("en"),

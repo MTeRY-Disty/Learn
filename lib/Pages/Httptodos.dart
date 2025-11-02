@@ -39,11 +39,11 @@ class HttpTodos extends StatelessWidget {
                               ),
                               Obx(() {
                                 final likesController = Get.find<LikesController>();
-                                final isLiked = likesController.isLiked(todo.id.toString()); // Assuming item has id
+                                final isLiked = likesController.isLiked('todo', todo.id.toString());
 
                                 return IconButton(
                                   onPressed: () {
-                                    likesController.toggleLike(todo.id.toString());
+                                    likesController.toggleLike('todo', todo.id.toString());
                                   },
                                   icon: Icon(
                                       isLiked

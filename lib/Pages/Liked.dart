@@ -36,14 +36,20 @@ class LikedItemsPage extends StatelessWidget {
 
                 // Get all items from different controllers
                 final allItems = <dynamic>[
-                  ...httpController.users,
-                  ...httpController.posts,
-                  ...httpController.todos,
+                  ...httpController.allUsers,
+                  ...httpController.allPosts,
+                  ...httpController.allTodos,
                 ];
 
                 // Filter only liked items
                 final likedItems = allItems.where((item) {
-                  return likedIds.contains(item.id.toString());
+                  String type;
+                  if (item is User) type = 'user';
+                  else if (item is Post) type = 'post';
+                  else if (item is Todo) type = 'todo';
+                  else return false;
+
+                  return likedIds.contains('$type:${item.id.toString()}');
                 }).toList();
 
                 return ListView.builder(
@@ -65,10 +71,16 @@ class LikedItemsPage extends StatelessWidget {
                                 child: const Text('Close'),
                               ),
                               Obx(() {
-                                final isLiked = likesController.isLiked(item.id.toString());
+                                String type;
+                                if (item is User) type = 'user';
+                                else if (item is Post) type = 'post';
+                                else if (item is Todo) type = 'todo';
+                                else type = 'unknown';
+
+                                final isLiked = likesController.isLiked(type, item.id.toString());
                                 return IconButton(
                                   onPressed: () {
-                                    likesController.toggleLike(item.id.toString());
+                                    likesController.toggleLike(type, item.id.toString());
                                   },
                                   icon: Icon(
                                       isLiked

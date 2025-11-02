@@ -64,6 +64,10 @@ class HttpController extends GetxController {
   List<Post> posts = [];
   List<Todo> todos = [];
 
+  List<User> allUsers = [];
+  List<Post> allPosts = [];
+  List<Todo> allTodos = [];
+
 
   @override
   void onInit() async {
@@ -77,6 +81,8 @@ class HttpController extends GetxController {
 
   }
 
+
+
   List<T> _getRandomItems<T>(List<T> list, int count) {
     if (list.length <= count) return List.from(list); // avoid errors
     list.shuffle(Random());
@@ -88,12 +94,15 @@ class HttpController extends GetxController {
       if (path == 'users') {
         final list = await fetchList<User>(path, User.fromJson);
         users = _getRandomItems(list, 5);
+        allUsers = list;
       } else if (path == 'posts') {
         final list = await fetchList<Post>(path, Post.fromJson);
         posts = _getRandomItems(list, 5);
+        allPosts = list;
       }else if (path == 'todos') {
         final list = await fetchList<Todo>(path, Todo.fromJson);
         todos = _getRandomItems(list, 5);
+        allTodos =list;
 
       }
       update();

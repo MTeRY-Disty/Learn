@@ -40,11 +40,11 @@ class HttpPost extends StatelessWidget {
 
                               Obx(() {
                                 final likesController = Get.find<LikesController>();
-                                final isLiked = likesController.isLiked(post.id.toString()); // Assuming item has id
+                                final isLiked = likesController.isLiked('post', post.id.toString());
 
                                 return IconButton(
                                   onPressed: () {
-                                    likesController.toggleLike(post.id.toString());
+                                    likesController.toggleLike('post', post.id.toString());
                                   },
                                   icon: Icon(
                                       isLiked

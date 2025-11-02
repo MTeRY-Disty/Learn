@@ -14,15 +14,21 @@ class LikesController extends GetxController {
     _likedItems.addAll(savedLikes.cast<String>());
   }
 
-  bool isLiked(String itemId) {
-    return _likedItems.contains(itemId);
+  String _getLikeKey(String type, String id) {
+    return '$type:$id';
   }
 
-  void toggleLike(String itemId) {
-    if (_likedItems.contains(itemId)) {
-      _likedItems.remove(itemId);
+  bool isLiked(String type, String id) {
+    final key = _getLikeKey(type, id);
+    return _likedItems.contains(key);
+  }
+
+  void toggleLike(String type, String id) {
+    final key = _getLikeKey(type, id);
+    if (_likedItems.contains(key)) {
+      _likedItems.remove(key);
     } else {
-      _likedItems.add(itemId);
+      _likedItems.add(key);
     }
     _storage.write('likedItems', _likedItems.toList());
   }
