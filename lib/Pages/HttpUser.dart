@@ -1,26 +1,80 @@
+import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import '../Controller/HttpController.dart';
-import '../core/HttpWidget.dart';
+import '../Controller/LikesController.dart';
 
-class HttpUser extends HttpWidget<User> {
-   HttpUser({super.key})
-      : super(
-    title: "User List",
-    endpoint: "users",
-    getData: (controller) => controller.users,
-  );
+class HttpUser extends StatelessWidget {
+  const HttpUser({super.key});
 
   @override
-  Widget buildListItem(BuildContext context, User user) {
-    return ListTile(
-      title: Text("Name: ${user.name}"),
-      subtitle: Text("ID: ${user.id} | Username: ${user.username}"),
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Column(
+          children: [
+            const Text("User List", style: TextStyle(fontSize: 20)),
+            const SizedBox(height: 16),
+            Expanded(
+              child: GetBuilder<HttpController>(builder: (controller) {
+                final users = controller.users;
+                return ListView.builder(
+                  itemCount: users.length,
+                  itemBuilder: (context, index) {
+                    final user = users[index];
+                    return ListTile(
+                      title: Text(_getItemTitle(user)),
+                      subtitle: Text(_getItemSubtitle(user)),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: Text(_getItemTitle(user)),
+                            content: _buildItemDetailDialog(context, user),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Get.back(),
+                                child: const Text('Close'),
+                              ),
+
+                              Obx(() {
+                                final likesController = Get.find<LikesController>();
+                                final isLiked = likesController.isLiked(user.id.toString()); // Assuming item has id
+
+                                return IconButton(
+                                  onPressed: () {
+                                    likesController.toggleLike(user.id.toString());
+                                  },
+                                  icon: Icon(
+                                      isLiked
+                                          ? FluentSystemIcons.ic_fluent_thumb_like_filled
+                                          : FluentSystemIcons.ic_fluent_thumb_like_regular
+                                  ),
+                                  color: isLiked ? Colors.red : null, // Optional: change color when liked
+                                );
+                              }),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  @override
-  Widget buildItemDetailDialog(BuildContext context, User user) {
+  // Helper methods
+  String _getItemTitle(User user) => "Name: ${user.name}";
+
+  String _getItemSubtitle(User user) => "ID: ${user.id} | Username: ${user.username}";
+
+  Widget _buildItemDetailDialog(BuildContext context, User user) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,10 +101,4 @@ class HttpUser extends HttpWidget<User> {
       ),
     );
   }
-
-  @override
-  String getItemTitle(User user) => "Name: ${user.name}";
-
-  @override
-  String getItemSubtitle(User user) => "ID: ${user.id} | Username: ${user.username}";
 }
