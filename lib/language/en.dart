@@ -9,6 +9,9 @@ Map<String,String> en ={
 
   "User List" : "User List",
 
+  "Liked Items" : "Liked Items",
+  "No liked items yet" : "No liked items yet",
+
   "Title" : "Title",
   "User ID" : "User ID",
   "Completed" : "Completed",

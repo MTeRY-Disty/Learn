@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:c2/Controller/LangController.dart';
 import 'package:c2/Controller/LikesController.dart';
 import 'package:c2/Pages/Httptodos.dart';
 import 'package:c2/language/AppLang.dart';
@@ -23,6 +24,7 @@ import 'Pages/MainNavigationWrapper.dart';
 Future<void> main()  async {
   await GetStorage.init(); // <-- need
   runApp(GetMaterialApp(
+    debugShowCheckedModeBanner: false,
   initialBinding: AllControllersBinding(),
     locale: Locale("ar"),
     translations: AppLang() ,
@@ -56,8 +58,27 @@ class Show extends StatelessWidget {
       HttpTodos(),
       LikedItemsPage(),
     ];
+    final languageController = Get.find<LanguageController>();
+
     return Scaffold(
-        appBar: AppBar(title: Text("Show".tr),backgroundColor: Colors.red,),
+        appBar: AppBar(
+          title: Text("Show".tr),
+          backgroundColor: Colors.red,
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: TextButton(
+                onPressed: () {
+                  languageController.toggleLanguage();
+                },
+                child: Text(
+                  languageController.isEnglish.value ? "AR" : "EN",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                ),
+              ),
+            ),
+          ],
+        ),
         bottomNavigationBar:MainNavigationWrapper(),
 
       body: Obx(() {
@@ -80,5 +101,6 @@ class AllControllersBinding extends Bindings {
     Get.lazyPut(() => HttpController());
     Get.lazyPut(() => NavBarController());
     Get.lazyPut(() => LikesController());
+    Get.lazyPut(() => LanguageController());
   }
 }

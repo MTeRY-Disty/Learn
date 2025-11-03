@@ -9,6 +9,9 @@ Map<String, String> ar = {
 
   "User List": "قائمة المستخدمين",
 
+  "Liked Items": "العناصر المفضلة",
+  "No liked items yet": "لا توجد عناصر مفضلة بعد",
+
   "Title": "العنوان",
   "User ID": "معرف المستخدم",
   "Completed": "مكتمل",

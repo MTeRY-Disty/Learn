@@ -17,7 +17,7 @@ class LikedItemsPage extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            const Text("Liked Items", style: TextStyle(fontSize: 20)),
+             Text("Liked Items".tr, style: TextStyle(fontSize: 20)),
             const SizedBox(height: 16),
             Expanded(
               child: Obx ((){
@@ -26,9 +26,9 @@ class LikedItemsPage extends StatelessWidget {
                 final likedIds = likesController.likedItems.toList();
 
                 if (likedIds.isEmpty) {
-                  return const Center(
+                  return  Center(
                     child: Text(
-                      "No liked items yet",
+                      "No liked items yet".tr,
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                   );
