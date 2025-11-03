@@ -14,7 +14,7 @@ class HttpUser extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            const Text("User List", style: TextStyle(fontSize: 20)),
+             Text("User List".tr, style: TextStyle(fontSize: 20)),
             const SizedBox(height: 16),
             Expanded(
               child: GetBuilder<HttpController>(builder: (controller) {
@@ -35,7 +35,7 @@ class HttpUser extends StatelessWidget {
                             actions: [
                               TextButton(
                                 onPressed: () => Get.back(),
-                                child: const Text('Close'),
+                                child:  Text('Close'.tr),
                               ),
 
                               Obx(() {
@@ -70,9 +70,9 @@ class HttpUser extends StatelessWidget {
   }
 
   // Helper methods
-  String _getItemTitle(User user) => "Name: ${user.name}";
+  String _getItemTitle(User user) => "${"Name".tr}: ${user.name}";
 
-  String _getItemSubtitle(User user) => "ID: ${user.id} | Username: ${user.username}";
+  String _getItemSubtitle(User user) => "${"ID".tr}: ${user.id} | ${"Username".tr}: ${user.username}";
 
   Widget _buildItemDetailDialog(BuildContext context, User user) {
     return SingleChildScrollView(
@@ -80,23 +80,23 @@ class HttpUser extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Email: ${user.email}"),
+          Text("${"Email".tr}: ${user.email}"),
           const SizedBox(height: 16),
-          const Text("Address:", style: TextStyle(fontWeight: FontWeight.bold)),
-          Text("Street: ${user.address.street}"),
-          Text("Suite: ${user.address.suite}"),
-          Text("City: ${user.address.city}"),
-          Text("Zipcode: ${user.address.zipcode}"),
-          Text("Geo: lat: ${user.address.geo.lat} | lng: ${user.address.geo.lng}"),
+           Text("${"Address".tr}:", style: TextStyle(fontWeight: FontWeight.bold)),
+          Text("${"Street".tr}: ${user.address.street}"),
+          Text("${"Suite".tr}: ${user.address.suite}"),
+          Text("${"City".tr}: ${user.address.city}"),
+          Text("${"Zipcode".tr}: ${user.address.zipcode}"),
+          Text("${"Geo".tr}: ${"lat".tr}: ${user.address.geo.lat} | ${"lng".tr}: ${user.address.geo.lng}"),
           const SizedBox(height: 16),
-          Text("Phone: ${user.phone}"),
+          Text("${"Phone".tr}: ${user.phone}"),
           const SizedBox(height: 16),
-          Text("Website: ${user.website}"),
+          Text("${"Website".tr}: ${user.website}"),
           const SizedBox(height: 16),
-          const Text("Company:", style: TextStyle(fontWeight: FontWeight.bold)),
-          Text("Name: ${user.company.name}"),
-          Text("Catch Phrase: ${user.company.catchPhrase}"),
-          Text("BS: ${user.company.bs}"),
+          Text("${"Company".tr}:", style: TextStyle(fontWeight: FontWeight.bold)),
+          Text("${"Name".tr}: ${user.company.name}"),
+          Text("${"Catch Phrase".tr}: ${user.company.catchPhrase}"),
+          Text("${"BS".tr}: ${user.company.bs}"),
         ],
       ),
     );

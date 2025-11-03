@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:c2/Controller/LikesController.dart';
 import 'package:c2/Pages/Httptodos.dart';
+import 'package:c2/language/AppLang.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,8 @@ Future<void> main()  async {
   await GetStorage.init(); // <-- need
   runApp(GetMaterialApp(
   initialBinding: AllControllersBinding(),
-    locale: Locale("en"),
+    locale: Locale("ar"),
+    translations: AppLang() ,
     home: Click(),
     ) );
 }
@@ -55,7 +57,7 @@ class Show extends StatelessWidget {
       LikedItemsPage(),
     ];
     return Scaffold(
-        appBar: AppBar(title: Text("Show"),backgroundColor: Colors.red,),
+        appBar: AppBar(title: Text("Show".tr),backgroundColor: Colors.red,),
         bottomNavigationBar:MainNavigationWrapper(),
 
       body: Obx(() {

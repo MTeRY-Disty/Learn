@@ -14,7 +14,7 @@ class HttpPost extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            const Text("Posts List", style: TextStyle(fontSize: 20)),
+             Text("Posts List".tr, style: TextStyle(fontSize: 20)),
             const SizedBox(height: 16),
             Expanded(
               child: GetBuilder<HttpController>(builder: (controller) {
@@ -35,7 +35,7 @@ class HttpPost extends StatelessWidget {
                             actions: [
                               TextButton(
                                 onPressed: () => Get.back(),
-                                child: const Text('Close'),
+                                child:  Text('Close'.tr),
                               ),
 
                               Obx(() {
@@ -70,9 +70,9 @@ class HttpPost extends StatelessWidget {
   }
 
   // Helper methods
-  String _getItemTitle(Post post) => "Title: ${post.title}";
+  String _getItemTitle(Post post) => "${"Title".tr}: ${post.title}";
 
-  String _getItemSubtitle(Post post) => "User ID: ${post.userId} | Post ID: ${post.id}";
+  String _getItemSubtitle(Post post) => "${"User ID".tr}: ${post.userId} | ${"Post ID".tr}: ${post.id}";
 
   Widget _buildItemDetailDialog(BuildContext context, Post post) {
     return SingleChildScrollView(
@@ -87,8 +87,8 @@ class HttpPost extends StatelessWidget {
           const SizedBox(height: 16),
           Text(post.body),
           const SizedBox(height: 16),
-          Text("User ID: ${post.userId}", style: const TextStyle(fontStyle: FontStyle.italic)),
-          Text("Post ID: ${post.id}", style: const TextStyle(fontStyle: FontStyle.italic)),
+          Text("${"User ID".tr}: ${post.userId}", style: const TextStyle(fontStyle: FontStyle.italic)),
+          Text("${"Post ID".tr}: ${post.id}", style: const TextStyle(fontStyle: FontStyle.italic)),
         ],
       ),
     );

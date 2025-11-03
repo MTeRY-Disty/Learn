@@ -3,61 +3,7 @@ import 'dart:math';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-/*
-class HttpController extends GetxController{
 
-  final dioClient = dio.Dio();
-  List<User> users = [];
-  List<Post> posts = [];
-
-  @override
-  void onInit() {
-    super.onInit();
-    getHttp("users");
-    getHttp("posts");
-  }
-
-//////////////////////////////////
-  Future<List<T>> fetchList<T>(
-      String path,
-      T Function(Map<String, dynamic>) fromJson,
-      )
-  async {
-    try {
-      final response =
-      await dioClient.get('https://jsonplaceholder.typicode.com/$path');
-
-      if (response.statusCode == 200) {
-        List<dynamic> data = response.data;
-        return data.map((json) => fromJson(json)).toList();
-      }
-    } catch (e) {
-      debugPrint('Request failed: $e');
-    }
-    return [];
-  }
-/////////////////////////
-  Future<void> getHttp(String path) async {
-    try {
-      final response = await dioClient.get(
-          'https://jsonplaceholder.typicode.com/$path');
-
-      if(response.statusCode == 200){
-        List<dynamic> data = response.data;
-        if(path == 'users'){
-          users = data.map((json) => User.fromJson(json)).toList();
-        }else if(path == 'posts'){
-          posts = data.map((json) => Post.fromJson(json)).toList();
-        }
-        update();
-      }
-
-    } catch (e) {
-      debugPrint('Request failed: $e');
-    }
-  }
-}
-*/
 class HttpController extends GetxController {
   final dioClient = dio.Dio();
   List<User> users = [];
@@ -80,8 +26,6 @@ class HttpController extends GetxController {
     );
 
   }
-
-
 
   List<T> _getRandomItems<T>(List<T> list, int count) {
     if (list.length <= count) return List.from(list); // avoid errors

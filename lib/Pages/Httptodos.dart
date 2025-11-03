@@ -14,7 +14,7 @@ class HttpTodos extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            const Text("ToDos", style: TextStyle(fontSize: 20)),
+            Text("ToDos".tr, style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 16),
             Expanded(
               child: GetBuilder<HttpController>(builder: (controller) {
@@ -35,22 +35,22 @@ class HttpTodos extends StatelessWidget {
                             actions: [
                               TextButton(
                                 onPressed: () => Get.back(),
-                                child: const Text('Close'),
+                                child: Text('Close'.tr),
                               ),
                               Obx(() {
                                 final likesController = Get.find<LikesController>();
-                                final isLiked = likesController.isLiked('todo', todo.id.toString());
+                                final isLiked = likesController.isLiked('todo', todo.id.toString()); // Remove .tr from key
 
                                 return IconButton(
                                   onPressed: () {
-                                    likesController.toggleLike('todo', todo.id.toString());
+                                    likesController.toggleLike('todo', todo.id.toString()); // Remove .tr from key
                                   },
                                   icon: Icon(
                                       isLiked
                                           ? FluentSystemIcons.ic_fluent_thumb_like_filled
                                           : FluentSystemIcons.ic_fluent_thumb_like_regular
                                   ),
-                                  color: isLiked ? Colors.red : null, // Optional: change color when liked
+                                  color: isLiked ? Colors.red : null,
                                 );
                               }),
                             ],
@@ -69,9 +69,9 @@ class HttpTodos extends StatelessWidget {
   }
 
   // Helper methods
-  String _getItemTitle(Todo todo) => "Title: ${todo.title}";
+  String _getItemTitle(Todo todo) => "${"Title".tr}: ${todo.title}";
 
-  String _getItemSubtitle(Todo todo) => "User ID: ${todo.userId} | Todo ID: ${todo.id}";
+  String _getItemSubtitle(Todo todo) => "${"User ID".tr}: ${todo.userId} | ${"Todo ID".tr}: ${todo.id}";
 
   Widget _buildItemDetailDialog(BuildContext context, Todo todo) {
     return SingleChildScrollView(
@@ -84,10 +84,10 @@ class HttpTodos extends StatelessWidget {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
-          Text("Completed: ${todo.completed ? 'Yes' : 'No'}"),
+          Text("${"Completed".tr}: ${todo.completed ? "Yes".tr : "No".tr}"),
           const SizedBox(height: 16),
-          Text("User ID: ${todo.userId}", style: const TextStyle(fontStyle: FontStyle.italic)),
-          Text("Todo ID: ${todo.id}", style: const TextStyle(fontStyle: FontStyle.italic)),
+          Text("${"User ID".tr}: ${todo.userId}", style: const TextStyle(fontStyle: FontStyle.italic)),
+          Text("${"Todo ID".tr}: ${todo.id}", style: const TextStyle(fontStyle: FontStyle.italic)),
         ],
       ),
     );
