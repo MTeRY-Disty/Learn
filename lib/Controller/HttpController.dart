@@ -2,13 +2,13 @@ import 'dart:math';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
 
 class HttpController extends GetxController {
   final dioClient = dio.Dio();
-  List<User> users = [];
-  List<Post> posts = [];
-  List<Todo> todos = [];
+  var users = <User>[].obs;
+  var posts = <Post>[].obs;
+  var todos = <Todo>[].obs;
 
   List<User> allUsers = [];
   List<Post> allPosts = [];
@@ -28,24 +28,26 @@ class HttpController extends GetxController {
   }
 
   List<T> _getRandomItems<T>(List<T> list, int count) {
-    if (list.length <= count) return List.from(list); // avoid errors
-    list.shuffle(Random());
-    return list.take(count).toList();
+    final regularList = list is RxList ? list.toList() : List<T>.from(list);
+
+    if (regularList.length <= count) return List.from(regularList);
+    regularList.shuffle(Random());
+    return regularList.take(count).toList();
   }
 
   Future<void> getHttp(String path) async {
     try {
       if (path == 'users') {
         final list = await fetchList<User>(path, User.fromJson);
-        users = _getRandomItems(list, 5);
+        users.value = _getRandomItems(list, 5).obs;
         allUsers = list;
       } else if (path == 'posts') {
         final list = await fetchList<Post>(path, Post.fromJson);
-        posts = _getRandomItems(list, 5);
+        posts.value = _getRandomItems(list, 5);
         allPosts = list;
       }else if (path == 'todos') {
         final list = await fetchList<Todo>(path, Todo.fromJson);
-        todos = _getRandomItems(list, 5);
+        todos.value = _getRandomItems(list, 5);
         allTodos =list;
 
       }

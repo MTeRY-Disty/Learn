@@ -44,10 +44,10 @@ class LikedItemsPage extends StatelessWidget {
                 // Filter only liked items
                 final likedItems = allItems.where((item) {
                   String type;
-                  if (item is User) type = 'user';
-                  else if (item is Post) type = 'post';
-                  else if (item is Todo) type = 'todo';
-                  else return false;
+                  if (item is User) {type = 'user';}
+                  else if (item is Post) {type = 'post';}
+                  else if (item is Todo){ type = 'todo';}
+                  else {return false;}
 
                   return likedIds.contains('$type:${item.id.toString()}');
                 }).toList();
@@ -72,10 +72,10 @@ class LikedItemsPage extends StatelessWidget {
                               ),
                               Obx(() {
                                 String type;
-                                if (item is User) type = 'user';
-                                else if (item is Post) type = 'post';
-                                else if (item is Todo) type = 'todo';
-                                else type = 'unknown';
+                                if (item is User) {type = 'user';}
+                                else if (item is Post) {type = 'post';}
+                                else if (item is Todo) {type = 'todo';}
+                                else {type = 'unknown';}
 
                                 final isLiked = likesController.isLiked(type, item.id.toString());
                                 return IconButton(

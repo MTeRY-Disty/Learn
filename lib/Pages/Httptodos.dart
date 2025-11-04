@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Controller/HttpController.dart';
 import '../Controller/LikesController.dart';
+import '../Controller/SortController.dart';
 
 class HttpTodos extends StatelessWidget {
   const HttpTodos({super.key});
@@ -16,9 +17,16 @@ class HttpTodos extends StatelessWidget {
           children: [
             Text("ToDos".tr, style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 16),
+
+            _buildSortControls(),
+            const SizedBox(height: 16),
+
+
             Expanded(
               child: GetBuilder<HttpController>(builder: (controller) {
-                final todos = controller.todos;
+                final sortController = Get.find<SortController>();
+                final todos = sortController.applySort(controller.todos);
+
                 return ListView.builder(
                   itemCount: todos.length,
                   itemBuilder: (context, index) {
@@ -39,11 +47,11 @@ class HttpTodos extends StatelessWidget {
                               ),
                               Obx(() {
                                 final likesController = Get.find<LikesController>();
-                                final isLiked = likesController.isLiked('todo', todo.id.toString()); // Remove .tr from key
+                                final isLiked = likesController.isLiked('todo', todo.id.toString());
 
                                 return IconButton(
                                   onPressed: () {
-                                    likesController.toggleLike('todo', todo.id.toString()); // Remove .tr from key
+                                    likesController.toggleLike('todo', todo.id.toString());
                                   },
                                   icon: Icon(
                                       isLiked
@@ -92,4 +100,47 @@ class HttpTodos extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildSortControls() {
+    return GetBuilder<SortController>(
+      builder: (sortController) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // Sort by ID
+            ElevatedButton(
+              onPressed: () =>{
+                sortController.sortBy(SortField.id),
+              },
+              style: _getSortButtonStyle(SortField.id, sortController),
+              child: Row(
+                children: [
+                  Text('Sort by ID'.tr),
+                  if (sortController.currentSortField.value == SortField.id)
+                    Icon(
+                      sortController.isAscending.value
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      size: 16,
+                    ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  //for button styling
+  ButtonStyle _getSortButtonStyle(SortField field, SortController controller) {
+    final isActive = controller.currentSortField.value == field;
+    return ElevatedButton.styleFrom(
+      backgroundColor: isActive ? Colors.blue : Colors.grey,
+      foregroundColor: Colors.white,
+    );
+  }
+
+
 }

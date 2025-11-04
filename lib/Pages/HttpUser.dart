@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Controller/HttpController.dart';
 import '../Controller/LikesController.dart';
+import '../Controller/SortController.dart';
 
 class HttpUser extends StatelessWidget {
   const HttpUser({super.key});
@@ -16,9 +17,15 @@ class HttpUser extends StatelessWidget {
           children: [
              Text("User List".tr, style: TextStyle(fontSize: 20)),
             const SizedBox(height: 16),
+
+            _buildSortControls(),
+            const SizedBox(height: 16),
+
             Expanded(
               child: GetBuilder<HttpController>(builder: (controller) {
-                final users = controller.users;
+                final sortController = Get.find<SortController>();
+                final users = sortController.applySort(controller.users);
+
                 return ListView.builder(
                   itemCount: users.length,
                   itemBuilder: (context, index) {
@@ -99,6 +106,70 @@ class HttpUser extends StatelessWidget {
           Text("${"BS".tr}: ${user.company.bs}"),
         ],
       ),
+    );
+  }
+
+
+  // Sorting Controls Widget
+  Widget _buildSortControls() {
+    return GetBuilder<SortController>(
+      builder: (sortController) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // Sort by ID
+            ElevatedButton(
+              onPressed: () =>{
+                sortController.sortBy(SortField.id),
+              },
+              style: _getSortButtonStyle(SortField.id, sortController),
+              child: Row(
+                children: [
+                  Text('Sort by ID'.tr),
+                  if (sortController.currentSortField.value == SortField.id)
+                    Icon(
+                      sortController.isAscending.value
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      size: 16,
+                    ),
+                ],
+              ),
+            ),
+
+            // Sort by Name
+            ElevatedButton(
+              onPressed: () =>{
+                sortController.sortBy(SortField.name),
+              },
+              style: _getSortButtonStyle(SortField.name, sortController),
+              child: Row(
+                children: [
+                  Text('Sort by Name'.tr),
+                  if (sortController.currentSortField.value == SortField.name)
+                    Icon(
+                      sortController.isAscending.value
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      size: 16,
+                    ),
+                ],
+              ),
+            ),
+
+          ],
+        );
+      },
+    );
+  }
+
+
+  //for button styling
+  ButtonStyle _getSortButtonStyle(SortField field, SortController controller) {
+    final isActive = controller.currentSortField.value == field;
+    return ElevatedButton.styleFrom(
+      backgroundColor: isActive ? Colors.blue : Colors.grey,
+      foregroundColor: Colors.white,
     );
   }
 }

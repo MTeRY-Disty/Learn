@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:c2/Controller/LangController.dart';
 import 'package:c2/Controller/LikesController.dart';
+import 'package:c2/Controller/SortController.dart';
 import 'package:c2/Pages/Httptodos.dart';
 import 'package:c2/language/AppLang.dart';
 import 'package:dio/dio.dart' as dio;
@@ -102,5 +103,6 @@ class AllControllersBinding extends Bindings {
     Get.lazyPut(() => NavBarController());
     Get.lazyPut(() => LikesController());
     Get.lazyPut(() => LanguageController());
+    Get.lazyPut(() => SortController());
   }
 }

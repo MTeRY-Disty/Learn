@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Controller/HttpController.dart';
 import '../Controller/LikesController.dart';
+import '../Controller/SortController.dart';
 
 class HttpPost extends StatelessWidget {
   const HttpPost({super.key});
@@ -16,9 +17,17 @@ class HttpPost extends StatelessWidget {
           children: [
              Text("Posts List".tr, style: TextStyle(fontSize: 20)),
             const SizedBox(height: 16),
+
+            _buildSortControls(),
+            const SizedBox(height: 16),
+
+
             Expanded(
               child: GetBuilder<HttpController>(builder: (controller) {
-                final posts = controller.posts;
+
+                final sortController = Get.find<SortController>();
+                final posts = sortController.applySort(controller.posts);
+
                 return ListView.builder(
                   itemCount: posts.length,
                   itemBuilder: (context, index) {
@@ -93,4 +102,47 @@ class HttpPost extends StatelessWidget {
       ),
     );
   }
+
+
+  Widget _buildSortControls() {
+    return GetBuilder<SortController>(
+      builder: (sortController) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // Sort by ID
+            ElevatedButton(
+              onPressed: () =>{
+                sortController.sortBy(SortField.id),
+              },
+              style: _getSortButtonStyle(SortField.id, sortController),
+              child: Row(
+                children: [
+                  Text('Sort by ID'.tr),
+                  if (sortController.currentSortField.value == SortField.id)
+                    Icon(
+                      sortController.isAscending.value
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      size: 16,
+                    ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  //for button styling
+  ButtonStyle _getSortButtonStyle(SortField field, SortController controller) {
+    final isActive = controller.currentSortField.value == field;
+    return ElevatedButton.styleFrom(
+      backgroundColor: isActive ? Colors.blue : Colors.grey,
+      foregroundColor: Colors.white,
+    );
+  }
+
 }
